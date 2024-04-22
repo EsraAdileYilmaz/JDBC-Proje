@@ -25,7 +25,6 @@ public class QueryManage {
     private String preparedQuery11Delete="delete from support_attachments where support_message_id = ?;";
     private String query12="select remember_token from admins where email='info@loantechexper.com'";
     private String query13="select charge from deposits where amount<500000 and trx='4GC9SMZUS69S'";
-
     private String preparedQuery14insert="INSERT INTO loans (loan_number,user_id,plan_id) VALUES (?,?,?)";
     private String preparedQuery14Delete="delete from loans where loan_number= ?";
     private String query15="select support_ticket_id from support_messages where message='Hello'";

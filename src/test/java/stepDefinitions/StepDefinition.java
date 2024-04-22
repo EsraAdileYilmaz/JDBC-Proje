@@ -162,7 +162,8 @@ public class StepDefinition {
         /*
         prepareStatement() metodu, JDBC (Java Database Connectivity) API'sinin bir parçasıdır ve
         SQL ifadelerini veritabanına göndermek için kullanılır. Bu metod, SQL ifadelerini
-        veritabanı sunucusuna göndermeden önce hazırlar ve sorguların daha etkin bir şekilde yürütülmesine olanak tanır.
+        veritabanı sunucusuna göndermeden önce hazırlar
+        ve sorguların daha etkin bir şekilde yürütülmesine olanak tanır.
 
        prepareStatement() kullanılarak oluşturulan bir PreparedStatement nesnesi,
        parametrelerle doldurulabilir ve birden çok kez kullanılabilir.
