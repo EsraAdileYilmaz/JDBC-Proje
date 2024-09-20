@@ -119,7 +119,7 @@ public class StepDefinition {
 
     //----------------UPDATE QUERY (statement ile)----------------------
 
-    @Given("Update query01 olusturulur vr execute edilir")
+    @Given("Update query01 olusturulur ve execute edilir")
     public void update_query01_olusturulur_vr_execute_edilir() throws SQLException {
         query= queryManage.getUpdateQuery05();
         rowCount= JDBCReusableMethods.updateQuery(query);//actual beklenen row sayisi
