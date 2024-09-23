@@ -37,11 +37,13 @@ public class StepDefinition {
         JDBCReusableMethods.getConnection();
 
     }
+
     @Given("Query01 hazirlanir ve execute edilir.")
     public void query01_hazirlanir_ve_execute_edilir()throws SQLException {
     query=queryManage.getQuery01();
     resultSet=JDBCReusableMethods.getStatement().executeQuery(query);
     }
+
     @Given("ResultSet01 sonuclari islenir.")
     public void result_set01_sonuclari_islenir() throws SQLException {
     resultSet.next();//iteratorumuzu 1 satir ilerlettik
@@ -50,6 +52,7 @@ public class StepDefinition {
     assertEquals(expectedUserId,actualUserId);//burada test ettigimiz sey 1.satirdaki user_id=1.
 
     }
+
     @Given("Database baglantisi kapatilir.")
     public void database_baglantisi_kapatilir() {
     JDBCReusableMethods.closeConnection();
@@ -61,6 +64,7 @@ public class StepDefinition {
     query=queryManage.getQuery02();
     resultSet=JDBCReusableMethods.getStatement().executeQuery(query);
     }
+
     @Given("ResultSet02 sonuclari islenir.")
     public void result_set02_sonuclari_islenir() throws SQLException {
         //resultset icinde 2 kayit var.bunun icin list icine atmaliyiz
@@ -88,6 +92,7 @@ public class StepDefinition {
        query=queryManage.getQuery03();
        resultSet=JDBCReusableMethods.getStatement().executeQuery(query);
     }
+
     @Given("ResultSet03 sonuclari islenir.")
     public void result_set03_sonuclari_islenir() throws SQLException {
     resultSet.next();
@@ -105,6 +110,7 @@ public class StepDefinition {
     resultSet=JDBCReusableMethods.getStatement().executeQuery(query);
 
     }
+
     @Given("ResultSet04 sonuclari islenir.")
     public void result_set04_sonuclari_islenir() throws SQLException {
     while(resultSet.next()){
@@ -124,6 +130,7 @@ public class StepDefinition {
         query= queryManage.getUpdateQuery05();
         rowCount= JDBCReusableMethods.updateQuery(query);//actual beklenen row sayisi
     }
+
     @Given("Sonuclar dogrulanir")
     public void sonuclar_dogrulanir() {
         int expectedRow=18;//bu 18 satiri tabloyu gorunce yazdik
@@ -179,6 +186,7 @@ public class StepDefinition {
      performans artışı ve güvenlik sağlamak için yaygın olarak tercih edilir.
          */
     }
+
     @Given("Prepared query03 sonuclar dogrulanir.")
     public void prepared_query03_sonuclar_dogrulanir() {
         assertEquals(1,rowCount);//yani sadece 1 satir etkilenecek
@@ -194,6 +202,7 @@ public class StepDefinition {
       preparedStatement.setInt(2,779);
       rowCount=preparedStatement.executeUpdate();
     }
+
     @Given("Prepared query08 sonuclar dogrulanir.")
     public void prepared_query08_sonuclar_dogrulanir() {
     assertEquals(1,rowCount);//1 satir etkilendi yani bunu dogrulamak istiyoruz
@@ -206,9 +215,9 @@ public class StepDefinition {
      preparedStatement=JDBCReusableMethods.getConnection().prepareStatement(query);
 
      //insert into update_logs (id,version,update_log,created_at) values (?,?,?,?);
-     id=faker.number().numberBetween(400,550);
+     id=faker.number().numberBetween(400,550);//tabloya bakip karar verdik,tabloda bos olan araligi aldik
      version=faker.options().option("Windows 10","MacOs ventura","Linux");
-     updateLog=faker.lorem().sentence(1);
+     updateLog=faker.lorem().sentence(1);//bir cumle atadik
 
      preparedStatement.setInt(1,id);
      preparedStatement.setString(2,version);
@@ -223,17 +232,18 @@ public class StepDefinition {
      int flag=0;
      if(rowCount>0){
          flag++;
-     }//burada satir eklendigini flag uzerinden test etmek icin flag olusturduk
+     }//burada birden fazla satir eklenmis olabilir ve satir eklendigini flag uzerinden test etmek icin flag olusturduk
         rowCount=0;
         assertEquals(1,flag);//yada bunun yerine direk=> assertEquals(1,rowCount); yapilabilir dogrulama icin
     }
+
     @Given("Update_logs tablosuna insert edilen datanin update log degeri degistirilir")
     public void update_logs_tablosuna_insert_edilen_datanin_update_log_degeri_degistirilir() throws SQLException {
     query=queryManage.getPreparedQuery09update();
     preparedStatement=JDBCReusableMethods.getConnection().prepareStatement(query);
 
     //UPDATE update_logs SET update_log = ? WHERE version=? AND id=?;
-    String updateLogYeni="yeni log";//kendi yazdigimiz "yeni log" ile update isleminin yapildigini dogruladik.yoksa insertteki lorem cumlesi gelirdi.faker dan gelen insert degerini yeni log olarak degistirmek istiyorum.
+    String updateLogYeni="yeni log";//kendi yazdigimiz "yeni log" ile update isleminin yapildigini gorduk,dogruladik.yoksa insertteki lorem cumlesi gelirdi.faker dan gelen insert degerini "yeni log" olarak degistirmek istiyorum.
     preparedStatement.setString(1,updateLogYeni);
     preparedStatement.setString(2,version);//version=faker.options().option("Windows 10","MacOs ventura","Linux"); burdan alicak
     preparedStatement.setInt(3,id);//id=faker.number().numberBetween(400,550); burdan alicak
@@ -242,6 +252,7 @@ public class StepDefinition {
         System.out.println("id: "+id);
 
     }
+
     @Given("update log degerinin degistigi dogrulanir")
     public void update_log_degerinin_degistigi_dogrulanir() {
     assertEquals(1,rowCount);
@@ -255,9 +266,10 @@ public class StepDefinition {
       //DELETE FROM update_logs WHERE id=?;
       preparedStatement.setInt(1,id);//bir onceki soruda tanimladik.yukarda faker class'i ile eklenen id'yi burda siliyoruz
       rowCount=preparedStatement.executeUpdate();
-      System.out.println("silinen id "+id);
+      System.out.println("silinen id= "+id);//sildigimiz id'yi vericek
 
     }
+
     @Given("Satirin silindigi dogrulanir")
     public void satirin_silindigidogrulanir() {
         assertEquals(1,rowCount);//1 satir etkilendi
@@ -268,12 +280,13 @@ public class StepDefinition {
 
     @Given("support_attachments tablosuna insert query hazirlanir ve calistirilir.")
     public void support_attachments_tablosuna_insert_query_hazirlanir_ve_calistirilir() throws SQLException {
-        //INSERT INTO support_attachments (id,support_message_id,attachment,created_at) VALUES (?,?,?,?);
+
         query=queryManage.getPreparedQuery11Insert();
         preparedStatement=JDBCReusableMethods.getConnection().prepareStatement(query);
+
         id=faker.number().numberBetween(400,600);
         supportMessageID=faker.number().numberBetween(250,300);
-
+        //INSERT INTO support_attachments (id,support_message_id,attachment,created_at) VALUES (?,?,?,?);
         preparedStatement.setInt(1,id);
         preparedStatement.setInt(2,supportMessageID);
         preparedStatement.setString(3,"658401a61409c1703149990.png");
@@ -286,6 +299,7 @@ public class StepDefinition {
         assertEquals(1,rowCount);//burada 1 satir eklendigini dogruluyoruz
 
     }
+
     @Given("support_attachments tablosuna insert edilen data silinir.")
     public void support_attachments_tablosuna_insert_edilen_data_silinir() throws SQLException {
         //delete from support_attachments where support_message_id = ?
@@ -304,6 +318,7 @@ public class StepDefinition {
         resultSet=JDBCReusableMethods.getStatement().executeQuery(query);
 
     }
+
     @Given("ResultSet12 sonuclari islenir.")
     public void result_set12_sonuclari_islenir() throws SQLException {
         resultSet.next();
@@ -320,6 +335,7 @@ public class StepDefinition {
        query=queryManage.getQuery13();
        resultSet=JDBCReusableMethods.getStatement().executeQuery(query);
     }
+
     @Given("ResultSet13 sonuclari islenir.")
     public void result_set13_sonuclari_islenir() throws SQLException {
         //resultset icinde 3 kayit var.bunun icin list icine atmaliyiz
@@ -364,6 +380,7 @@ public class StepDefinition {
 
 
     }
+
     @Given("loans tablosuna insert edilen data silinir.")
     public void loans_tablosuna_insert_edilen_data_silinir() throws SQLException {
        //delete from loans where loan_number= ?
@@ -382,6 +399,7 @@ public class StepDefinition {
        query=queryManage.getQuery15();
        resultSet=JDBCReusableMethods.getStatement().executeQuery(query);
     }
+
     @Given("ResultSet15 sonuclari islenir.")
     public void result_set15_sonuclari_islenir() throws SQLException {
         //resultset icinde 3 kayit var.bunun icin list icine atmaliyiz
